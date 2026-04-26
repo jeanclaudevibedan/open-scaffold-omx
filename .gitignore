@@ -1,0 +1,26 @@
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# open-scaffold OMX generated/ephemeral state
+.omx/state/
+.omx/research/
+.omx/runs/
+.omx/reviews/.tmp/
+
+# Node/TypeScript CLI artifacts
+node_modules/
+dist/
+coverage/
+
+# Owner development artifacts (not shipped with template)
+.omx-dev/

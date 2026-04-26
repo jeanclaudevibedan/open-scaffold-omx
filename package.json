@@ -1,0 +1,30 @@
+{
+  "name": "open-scaffold-omx",
+  "version": "0.2.0",
+  "description": "OMX adapter for open-scaffold methodology.",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "osc-omx": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "osc-omx": "tsx src/cli.ts"
+  },
+  "files": [
+    "dist",
+    ".omx",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "devDependencies": {
+    "@types/node": "^20.17.10",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
