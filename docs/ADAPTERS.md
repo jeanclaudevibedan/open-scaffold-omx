@@ -1,41 +1,27 @@
-# Runtime Adapters
+# Runtime Adapter Boundary
 
-open-scaffold-omx is the runtime-neutral core. It owns the project contract: mission, plans, amendments, verification, run artifacts, and prompt bundles under `.omx/`.
+This repository is [`jeanclaudevibedan/open-scaffold-omx`](https://github.com/jeanclaudevibedan/open-scaffold-omx), the OMX adapter for open-scaffold.
 
-Adapters are optional engines that consume that contract.
+## Adapter family
 
-## Generic core: `jeanclaudevibedan/open-scaffold-omx`
+| Repo | Namespace | CLI | Runtime |
+|---|---:|---:|---|
+| [open-scaffold](https://github.com/jeanclaudevibedan/open-scaffold) | `.osc` | `osc` | Runtime-neutral core |
+| [open-scaffold-omc](https://github.com/jeanclaudevibedan/open-scaffold-omc) | `.omc` | `osc-omc` | Claude Code + OMC |
+| [open-scaffold-omx](https://github.com/jeanclaudevibedan/open-scaffold-omx) | `.omx` | `osc-omx` | Codex CLI + OMX |
 
-Namespace: `.omx/`
-
-Responsibilities:
-- Parse missions, plans, amendments, acceptance criteria, and Execution Strategy sections.
-- Generate prompt/artifact bundles with `osc-omx`.
-- Keep all outputs inspectable as files.
-- Never spawn autonomous agents directly.
-
-## OMC adapter: `jeanclaudevibedan/open-scaffold-omx-omc`
-
-Namespace: `.omc/`
-
-Responsibilities:
-- Integrate open-scaffold-omx with oh-my-claudecode.
-- Translate scaffold plan state into OMC-native `/team`, `/ultrawork`, `/ralph`, verification, and amendment flows.
-- Shell out to `osc-omx` for shared parsing and prompt/artifact generation where possible.
-- Perform autonomous spawning through OMC, not through open-scaffold OMX-omx.
-
-## OMX adapter: `jeanclaudevibedan/open-scaffold-omx-omx`
+## This adapter
 
 Namespace: `.omx/`
+CLI: `osc-omx`
+Runtime: [oh-my-codex / Codex CLI](https://github.com/Yeachan-Heo/oh-my-codex)
 
 Responsibilities:
-- Integrate open-scaffold-omx with oh-my-codex and Codex CLI.
-- Follow OMX conventions: `.omx/` state, `AGENTS.md`, Codex skills/prompts, `.codex/hooks.json`, `$deep-interview`, `$ralplan`, `$team`, and `$ralph`.
-- Shell out to `osc-omx` for shared parsing and prompt/artifact generation where possible.
-- Perform autonomous spawning through OMX/Codex team runtime, not through open-scaffold OMX-omx.
+- Keep scaffold methodology native to `.omx/plans/`.
+- Generate OMX-native handoffs for `$deep-interview`, `$ralplan`, `$team`, and `$ralph`.
+- Preserve mission-first planning, immutable plans, amendments, and `verify.sh` checks.
+- Keep runtime-specific hook/state/orchestration logic out of generic open-scaffold.
 
-## Rule of thumb
+## Boundary rule
 
-`.omx` is the chassis. `.omc` and `.omx` are engines.
-
-Do not put runtime-specific hook logic into open-scaffold OMX-omx. Put it in the adapter repo that owns that runtime.
+Generic open-scaffold owns `.osc` and prompt/artifact generation. This adapter owns `.omx` and OMX-native runtime handoffs. Do not push OMX-specific conventions back into the generic core.

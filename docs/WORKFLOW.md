@@ -10,21 +10,19 @@ Every task moves through a natural progression. You do not need to use every pha
 
 Ask structured questions until the goal, constraints, and acceptance criteria are concrete. Don't start building until you can state in one sentence what "done" looks like.
 
-> **With OMC/OMX:** `/oh-my-claudecode:deep-interview` runs Socratic Q&A until ambiguity drops below 20%, producing a spec at `.omx/specs/`.
+> **With OMX:** `$deep-interview` runs Socratic Q&A, persists runtime-only question/session state under `.omx/state/`, then the result should become a spec under `.omx/specs/` or a plan under `.omx/plans/active/`.
 
 ### 2. Plan (when the task is non-trivial)
 
 Write a plan file in `.omx/plans/active/` using the 7-section schema in `.omx/plans/handoff-template.md`. The plan must include acceptance criteria — testable bullets that define success. For risky or multi-file work, get the plan reviewed before executing. See `.omx/plans/WORKFLOW.md` for the stage-folder lifecycle and `.omx/RULES.md` for non-negotiable principles.
 
-> **With OMC/OMX:** `/oh-my-claudecode:plan` or `/ralplan` runs a Planner → Architect → Critic consensus loop.
+> **With OMX:** `$ralplan` reviews the plan; `osc-omx handoff <plan-path>` emits OMX-native commands.
 
 ### 3. Execute (build it)
 
 Implement what the plan says. Independent tasks can run in parallel. Every change must trace back to a plan file or amendment.
 
-> **With OMC:** `/oh-my-claudecode:autopilot` or `/ralph` for autonomous execution. `/oh-my-claudecode:ultrawork` or `/team` for parallel fan-out across multiple agents.
->
-> **With OMX:** `codex` for fast boilerplate and single-file edits.
+> **With OMX:** `$ralph` for persistent completion loops. `$team` for tmux-backed Codex worker teams. Keep runtime-owned state under `.omx/state/`.
 >
 > **IDE-native:** Antigravity + Gemini agent pane for inline refactors and UI tweaks.
 
@@ -34,7 +32,7 @@ Check the plan's acceptance criteria one by one. Run tests. Read the diff. Verif
 
 Run `./verify.sh` for a methodology compliance report (mission defined, plans exist, amendments sequential, changelog coverage). Use `./verify.sh --strict` for full checks including plan schema validation and paired-view drift detection.
 
-> **With OMC:** `/oh-my-claudecode:verify` traces back to acceptance criteria in the plan file. Agents also run `./verify.sh --quick` automatically before non-trivial code changes.
+> **With OMX:** runtime handoffs should still end with `./verify.sh` plus acceptance-criteria evidence. Runtime state is not verification evidence by itself.
 
 ### 5. Capture amendments (when you "get smarter")
 
@@ -49,7 +47,7 @@ Optional flags: `--stage` to `git add` both files automatically; `--backlog` to 
 
 This is the difference between legitimate scope evolution (captured, traceable) and bad scope creep (silent, invisible). The script is the safety net: it makes the mechanical parts of the amendment protocol (autonumbering, schema fidelity, changelog stamping) impossible to get wrong.
 
-> **With OMC:** `/ccg` (tri-model: Claude + Codex + Gemini) is useful when you're stuck or want a second opinion before amending.
+> **With OMX:** use `$ralplan` or a review handoff when you need a second opinion before amending.
 
 ## When to use what
 
@@ -63,7 +61,7 @@ There is no automatic router between tools. You, the human, decide based on the 
 | Independent parallel tasks | Parallel execution | Fan out across agents for throughput |
 | Stuck or uncertain | Second opinion | A different model's perspective breaks deadlocks |
 
-> **With OMC + OMX:** Claude Code + OMC is the *thinking and shipping* cockpit — planning, execution, verification, deep debugging. Codex + OMX is the *typing* cockpit — fast boilerplate where judgment matters less than throughput. Antigravity's Gemini agent is the *IDE-native* cockpit — staying in the editor for UI tweaks and quick inline work.
+> **With OMX:** Codex + OMX is the Codex-native cockpit for `$deep-interview`, `$ralplan`, `$team`, and `$ralph`; generic open-scaffold remains the runtime-neutral contract.
 
 ### Delegation decision tree
 
@@ -78,7 +76,7 @@ When your plan has multiple tasks, use this decision tree to decide how to execu
    - **No →** Safe to parallelize. Continue to step 3.
 
 3. **Do you have a capable agent?** (Can it read plan files and use tools?)
-   - **Yes, with OMC →** The agent reads the plan's Execution Strategy section and proposes `/team` or `/ultrawork` for parallel groups automatically. You approve or adjust.
+   - **Yes, with OMX →** The agent reads the plan's Execution Strategy section and proposes `$team` or `$ralph` handoff paths automatically. You approve or adjust.
    - **Yes, plain Claude Code or similar →** The agent reads the Execution Strategy section and describes the parallelism opportunity. You decide how to act on it.
    - **No agent, or local LLM →** Run `./delegate.sh <plan-path>` to generate actionable prompts you can paste into separate terminal sessions.
 
@@ -88,7 +86,7 @@ What works at each level of tooling:
 
 | Tier | Agent reads Execution Strategy? | Auto-proposes delegation? | Fallback |
 |------|--------------------------------|--------------------------|----------|
-| **OMC** (oh-my-claudecode) | Yes | Yes — proposes `/team`, `/ultrawork` with specific groups | Full automation |
+| **OMX** (oh-my-codex) | Yes | Yes — proposes `$team`, `$ralph`, `$deep-interview`, `$ralplan` handoffs | Full automation |
 | **Plain Claude Code** (or similar capable agent) | Yes, if instructed via CLAUDE.md | Describes the opportunity; human decides | Agent-assisted |
 | **Local LLM / no agent** | No | No | Run `./delegate.sh <plan-path>` for terminal prompts |
 

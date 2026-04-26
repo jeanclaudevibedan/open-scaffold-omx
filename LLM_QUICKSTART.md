@@ -55,8 +55,8 @@ Either way, report the failing check and proceed to Step 4. A passing `--quick` 
 Ask the user two questions:
 
 1. Which runtime are you using?
-   - **OMC** ([oh-my-claudecode](https://github.com/yeachan-heo/oh-my-claudecode) installed)
-   - **Plain agent** (Claude Code, Cursor, Codex, Aider — no OMC)
+   - **OMX adapter** (this repo: `open-scaffold-omx`, `.omx` / `osc-omx`)
+   - **Plain agent** (no OMX runtime)
    - **Fully manual** (no agent)
 2. Is your first task clear in your head, or still fuzzy?
 
@@ -64,11 +64,11 @@ Print the matching handoff verbatim, then stop. Each handoff assumes the downstr
 
 | Runtime | Task state | Handoff |
 |---|---|---|
-| OMC | Clear | `Run /autopilot with: "If my MISSION.md is still unset, elicit it from me first (one sentence on what this project is; main outcomes; adjacent features I'm choosing NOT to build). Stamp MISSION.md with my answers. Then write a plan in .omx/plans/active/ for <task> using .omx/plans/handoff-template.md."` |
-| OMC | Fuzzy | `Run /deep-interview. Tell it your MISSION.md is unset AND your first task is fuzzy — it will cover both in one interview, stamp MISSION.md, and write the plan in .omx/plans/active/.` |
-| Plain agent | Clear | `Tell your agent: "My MISSION.md is unset. Ask me three things: (a) what is this project in one sentence, (b) main outcomes, (c) adjacent features I could plausibly build but am choosing not to (good non-goals are adjacent, not unrelated — think 'recipe app: not a meal planner' rather than 'recipe app: not a television'). Update MISSION.md with my answers, then write a plan in .omx/plans/active/ for <task> using .omx/plans/handoff-template.md."` |
-| Plain agent | Fuzzy | `Tell your agent: "My MISSION.md is unset AND my first task is fuzzy. Interview me until both are clear — mission (what, main outcomes, adjacent non-goals) and task (specific enough for a 7-section plan). Update MISSION.md, then write the plan in .omx/plans/active/ using .omx/plans/handoff-template.md."` |
-| Manual | Either | `Open MISSION.md in your editor and fill in the three TODO sections by hand (if they are still there — interactive bootstrap may have replaced them). Then run: cp .omx/plans/handoff-template.md .omx/plans/active/my-first-task.md — open the copy and fill in its 7 sections. See .omx/RULES.md for non-negotiable principles, .omx/plans/WORKFLOW.md for stage-folder conventions, and close.sh for marking plans done.` |
+| OMX adapter | Clear | `Run $ralplan with: "If my MISSION.md is still unset, elicit it from me first. Stamp MISSION.md with my answers. Then write a plan in .omx/plans/active/ for <task> using .omx/plans/handoff-template.md."` |
+| OMX adapter | Fuzzy | `Run $deep-interview. Tell it your MISSION.md is unset AND your first task is fuzzy — it should cover both and write the plan in .omx/plans/active/. Keep runtime-only question/session data under .omx/state/.` |
+| Plain agent | Clear | `Tell your agent: "My MISSION.md is unset. Ask me what this project is, outcomes, and non-goals. Update MISSION.md, then write a plan in .omx/plans/active/ for <task> using .omx/plans/handoff-template.md."` |
+| Plain agent | Fuzzy | `Tell your agent: "My MISSION.md is unset AND my first task is fuzzy. Interview me until both are clear, then update MISSION.md and write the plan in .omx/plans/active/."` |
+| Manual | Either | `Open MISSION.md and fill in the TODO sections. Then copy .omx/plans/handoff-template.md to .omx/plans/active/my-first-task.md and fill in its 7 sections.` |
 
 ## Stop condition
 

@@ -76,7 +76,7 @@ export function createRunArtifacts(root: string, plan: ParsedPlan, mode: 'delega
     },
     prompts: promptPaths.map((p) => relative(root, p)),
     spawning: false,
-    note: 'open-scaffold OMX-omx creates prompt/artifact bundles only. OMX owns runtime-native orchestration handoff.',
+    note: 'open-scaffold-omx creates prompt/artifact bundles only. OMX owns runtime-native orchestration handoff.',
   }, null, 2) + '\n', 'utf8');
 
   return { runId, runDir, manifestPath, promptPaths };
